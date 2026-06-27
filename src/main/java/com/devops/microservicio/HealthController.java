@@ -1,31 +1,35 @@
 package com.devops.microservicio;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.HashMap;
-import java.util.Map;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 
-@RestController
-public class HealthController {
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-    @GetMapping("/health")
-    public Map<String, String> health() {
-        Map<String, String> response = new HashMap<>();
-        response.put("status", "ok");
-        response.put("container", "java");
-        return response;
+@SpringBootTest
+@AutoConfigureMockMvc
+class HealthControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void testHealthEndpoint() throws Exception {
+        mockMvc.perform(get("/health"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("ok"))
+                .andExpect(jsonPath("$.container").value("java"));
     }
 
-    @GetMapping("/version")
-    public Map<String, String> version() {
-        String appVersion = System.getenv("APP_VERSION");
-        if (appVersion == null) {
-            appVersion = "1.0.0";
-        }
-        
-        Map<String, String> response = new HashMap<>();
-        response.put("versionContainerJava", appVersion);
-        return response;
+    @Test
+    void testVersionEndpoint() throws Exception {
+        mockMvc.perform(get("/version"))
+                .andExpect(status().isOk())
+                // Cambiar de '$.version' a '$.versionContainerJava'
+                .andExpect(jsonPath("$.versionContainerJava").exists());
     }
 
 }
