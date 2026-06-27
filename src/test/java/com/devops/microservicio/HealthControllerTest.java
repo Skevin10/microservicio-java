@@ -27,7 +27,7 @@ class HealthControllerTest {
     void testVersionEndpoint() throws Exception {
         mockMvc.perform(get("/version"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.version").exists());
+                .andExpect(jsonPath("$.versionContainerJava").exists());
     }
 
 }
