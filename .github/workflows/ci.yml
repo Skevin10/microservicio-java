@@ -1,0 +1,42 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout código
+      - uses: actions/checkout@v4
+
+      # 2. Setup Java
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      # 3. Compilar y ejecutar tests
+      - name: Build and test
+        run: mvn clean test package
+
+      # 4. Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t microservicio:${{ github.sha }} .
+          docker tag microservicio:${{ github.sha }} microservicio:latest
+
+      # 5. Test Docker container
+      - name: Test Docker container
+        run: |
+          docker run -d --name test-app -p 8081:8088 -e APP_VERSION=1.0.0 microservicio:latest
+          sleep 3
+          curl http://localhost:8081/health || exit 1
+          docker stop test-app
+          docker rm test-app
