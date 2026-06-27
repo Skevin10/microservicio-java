@@ -12,6 +12,7 @@ public class HealthController {
     public Map<String, String> health() {
         Map<String, String> response = new HashMap<>();
         response.put("status", "ok");
+        response.put("container", "java");
         return response;
     }
 
@@ -23,7 +24,7 @@ public class HealthController {
         }
         
         Map<String, String> response = new HashMap<>();
-        response.put("version", appVersion);
+        response.put("versionContainerJava", appVersion);
         return response;
     }
 
