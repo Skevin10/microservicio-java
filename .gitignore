@@ -1,0 +1,22 @@
+# Maven
+target/
+*.jar
+*.war
+*.zip
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.swp
+
+# System
+.DS_Store
+.env.local
+
+# Logs
+*.log
+healthcheck.log
+
+# Dependencies
+.m2/
