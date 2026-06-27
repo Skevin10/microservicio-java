@@ -40,8 +40,8 @@ jobs:
       # 5. Test Docker container
       - name: Test Docker container
         run: |
-          docker run -d --name test-app -p 8081:8081 -e APP_VERSION=1.0.0 microservicio-java:latest
+          docker run -d --name containerJAVA -p 8081:8081 -e APP_VERSION=1.0.0 microservicio-java:latest
           sleep 3
           curl http://localhost:8081/health || exit 1
-          docker stop test-app
-          docker rm test-app
+          docker stop containerJAVA
+          docker rm containerJAVA
