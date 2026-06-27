@@ -30,7 +30,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t microservicio-java:${{ github.sha }} .
-          docker tag microservicio:${{ github.sha }} microservicio:latest
+          docker tag microservicio-java:${{ github.sha }} microservicio-java:latest
       
       # 4.4 Secrect Validation
       - name: Secure secret validation
