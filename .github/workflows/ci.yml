@@ -29,7 +29,7 @@ jobs:
       # 4. Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t microservicio:${{ github.sha }} .
+          docker build -t microservicio-java:${{ github.sha }} .
           docker tag microservicio:${{ github.sha }} microservicio:latest
       
       # 4.4 Secrect Validation
@@ -40,7 +40,7 @@ jobs:
       # 5. Test Docker container
       - name: Test Docker container
         run: |
-          docker run -d --name test-app -p 8081:8081 -e APP_VERSION=1.0.0 microservicio:latest
+          docker run -d --name test-app -p 8081:8081 -e APP_VERSION=1.0.0 microservicio-java:latest
           sleep 3
           curl http://localhost:8081/health || exit 1
           docker stop test-app

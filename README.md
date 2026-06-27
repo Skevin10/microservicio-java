@@ -248,10 +248,7 @@ Verifica que Docker daemon está corriendo:
 docker info
 ```
 
-## Contribuciones
+##Comando para levanta el contenedor 
 
-Este proyecto es de aprendizaje. Siéntete libre de modificarlo y experimentar.
-
-## Licencia
-
-MIT
+docker build -t microservicio-java:latest .
+docker run -p 8081:8081 -e APP_VERSION=1.0.0 microservicio-java:latest
